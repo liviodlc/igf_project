@@ -9,6 +9,7 @@ public class Main {
 		// TODO Auto-generated method stub
 		System.out.println("Hello World!");
 		System.out.println("Experimental Feature: beep");
+		System.out.println("Zuoming's Experimental Feature: Summon Meteors");
 	}
 
 }
