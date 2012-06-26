@@ -9,7 +9,7 @@ public class Main {
 		// TODO Auto-generated method stub
 		System.out.println("Hello World!");
 		System.out.println("Livio's Second Edit");
-		System.out.println("Zuoming's First Edit");
+		System.out.println("Zuoming's First Edit [EDIT: Livio was here]");
 	}
 
 }
