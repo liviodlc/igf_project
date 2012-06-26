@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Package xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_YSqDEb_ZEeGIud00HRyFoA" name="igf.project">
+  <elementImport xmi:id="_YUw74L_ZEeGIud00HRyFoA">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+  </elementImport>
+  <elementImport xmi:id="_YU2bcL_ZEeGIud00HRyFoA">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+  </elementImport>
+  <elementImport xmi:id="_YU2bcb_ZEeGIud00HRyFoA">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#UnlimitedNatural"/>
+  </elementImport>
+  <elementImport xmi:id="_YU2bcr_ZEeGIud00HRyFoA">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+  </elementImport>
+  <packagedElement xmi:type="uml:Class" xmi:id="_cQBQgL_ZEeGIud00HRyFoA" name="Main">
+    <ownedAttribute xmi:id="_deSacL_ZEeGIud00HRyFoA" name="myProperty" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+      <defaultValue xmi:type="uml:LiteralString" xmi:id="_hDpXkL_ZEeGIud00HRyFoA" value="0"/>
+    </ownedAttribute>
+    <ownedOperation xmi:id="_iMkHcL_ZEeGIud00HRyFoA" name="myMethod">
+      <ownedParameter xmi:id="_kDmhkL_ZEeGIud00HRyFoA" direction="return"/>
+    </ownedOperation>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_m3ovcL_ZEeGIud00HRyFoA" name="AnotherClass" clientDependency="_rsRjIL_ZEeGIud00HRyFoA"/>
+  <packagedElement xmi:type="uml:Dependency" xmi:id="_o7s48L_ZEeGIud00HRyFoA" name="dependency"/>
+  <packagedElement xmi:type="uml:Dependency" xmi:id="_pnfA4L_ZEeGIud00HRyFoA" name="dependency1"/>
+  <packagedElement xmi:type="uml:Dependency" xmi:id="_pyjBYL_ZEeGIud00HRyFoA" name="dependency2"/>
+  <packagedElement xmi:type="uml:Dependency" xmi:id="_p3bhYL_ZEeGIud00HRyFoA" name="dependency3"/>
+  <packagedElement xmi:type="uml:Dependency" xmi:id="_p5kPYL_ZEeGIud00HRyFoA" name="dependency4"/>
+  <packagedElement xmi:type="uml:Dependency" xmi:id="_rsRjIL_ZEeGIud00HRyFoA" name="myMethod()" supplier="_cQBQgL_ZEeGIud00HRyFoA" client="_m3ovcL_ZEeGIud00HRyFoA"/>
+</uml:Package>
