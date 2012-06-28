@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package igf.project;
 
 public class Main {
@@ -12,20 +11,3 @@ public class Main {
 		System.out.println("Zuoming's Experimental Feature: Summon Meteors");
 	}
 }
-=======
-package igf.project;
-
-public class Main {
-
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		System.out.println("Hello World!");
-		System.out.println("Experimental Feature: beep");
-		System.out.println("Zuoming's Experimental Feature: Summon Meteors");
-	}
-
-}
->>>>>>> origin/experimental
