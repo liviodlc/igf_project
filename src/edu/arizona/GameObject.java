@@ -16,7 +16,8 @@ abstract class GameObject {
 
 	// ----------------- DEFINITIONS -------------------------------
 
-	public static final String IMAGE_DIRECTORY = System.getProperty("user.dir") + "/data.images/";
+	public static final String IMAGE_DIRECTORY = System.getProperty("user.dir") + File.separator
+			+ "data.images" + File.separator;
 
 	// ---------------- INSTANCE VARS -------------------------------
 
