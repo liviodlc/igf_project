@@ -55,7 +55,6 @@ public class Main extends JFrame implements KeyListener, ChangeListener, MouseLi
 	private Timer timer;
 	private Player player;
 	private JSlider spectrum;
-	private boolean mouseDown;
 
 	// -------------- CONSTRUCTORS & INIT METHODS ------------------
 
@@ -74,12 +73,12 @@ public class Main extends JFrame implements KeyListener, ChangeListener, MouseLi
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-		
+
 		cp = getContentPane();
 		cp.setLayout(new BorderLayout());
 		cp.setFocusable(true);
 	}
-	
+
 	public void initSpectrum() {
 		// create the slider:
 		spectrum = new JSlider(JSlider.HORIZONTAL, SPECTRUM_MIN, SPECTRUM_MAX, SPECTRUM_INIT);
@@ -97,20 +96,20 @@ public class Main extends JFrame implements KeyListener, ChangeListener, MouseLi
 
 	private void initLevel() {
 		room = new Room();
-		room.visRange = spectrum.getValue();
+		room.setVisRange(spectrum.getValue());
 		cp.add(room, BorderLayout.CENTER);
 
 		player = new Player(50, 200);
 		room.addGameObject(player);
-		
-		//floor:
-		for(int i = 0; i < 10; i++){
+
+		// floor:
+		for (int i = 0; i < 40; i++) {
 			Wall w = new Wall(i * 32, 500);
 			room.addGameObject(w);
 		}
-		
-		//vertical wall
-		for(int i = 1; i < 10; i++){
+
+		// vertical wall
+		for (int i = 1; i < 10; i++) {
 			Wall w = new Wall(0, 500 - (i * 32));
 			room.addGameObject(w);
 		}
@@ -118,7 +117,7 @@ public class Main extends JFrame implements KeyListener, ChangeListener, MouseLi
 
 	private void initGameLoop() {
 		cp.addKeyListener(this);
-		
+
 		timer = new Timer();
 		timer.schedule(new TimerTask() {
 
@@ -156,14 +155,14 @@ public class Main extends JFrame implements KeyListener, ChangeListener, MouseLi
 		case KeyEvent.VK_Z:
 			if (value > spectrum.getMinimum()) {
 				spectrum.setValue(value - spectrum.getMajorTickSpacing());
-				room.visRange = value - spectrum.getMajorTickSpacing();
+				room.setVisRange(value - spectrum.getMajorTickSpacing());
 				room.repaint();
 			}
 			break;
 		case KeyEvent.VK_C:
 			if (value < spectrum.getMaximum()) {
 				spectrum.setValue(value + spectrum.getMajorTickSpacing());
-				room.visRange = value + spectrum.getMajorTickSpacing();
+				room.setVisRange(value + spectrum.getMajorTickSpacing());
 				room.repaint();
 			}
 			break;
@@ -196,7 +195,7 @@ public class Main extends JFrame implements KeyListener, ChangeListener, MouseLi
 
 	@Override
 	public void stateChanged(ChangeEvent arg0) {
-		room.visRange = spectrum.getValue();
+		room.setVisRange(spectrum.getValue());
 		room.repaint();
 	}
 
@@ -220,12 +219,10 @@ public class Main extends JFrame implements KeyListener, ChangeListener, MouseLi
 			spectrum.setValue(place - diff);
 		}
 		room.repaint();
-		mouseDown = false;
 	}
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-		mouseDown = true;
 	}
 
 	/* Methods that don't need to be implemented */

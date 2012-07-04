@@ -4,6 +4,8 @@ import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -14,7 +16,7 @@ abstract class GameObject {
 
 	// ----------------- DEFINITIONS -------------------------------
 
-	private static final String IMAGE_DIRECTORY = System.getProperty("user.dir") + "/data.images/";
+	public static final String IMAGE_DIRECTORY = System.getProperty("user.dir") + "/data.images/";
 
 	// ---------------- INSTANCE VARS -------------------------------
 
@@ -32,9 +34,11 @@ abstract class GameObject {
 	// visuals:
 	protected int visRange;
 	protected Image currImage;
-	private BufferedImage spriteSheet;
-	private int subImgWidth;
-	private int subImgHeight;
+	protected BufferedImage spriteSheet;
+	protected int subImgWidth;
+	protected int subImgHeight;
+	public int imgOffsetX;
+	public int imgOffsetY;
 
 	// ----------------- CONSTRUCTORS ------------------------
 
@@ -68,12 +72,22 @@ abstract class GameObject {
 	 *            - The width of each sub-image in the spritesheet.
 	 * @param subImgHeight
 	 *            - The height of each sub-image in the spritesheet.
+	 * @param scale
+	 *            - A number between 0 and 1 describing how much to resize the image.
 	 */
-	protected void loadImage(String img, int subImgWidth, int subImgHeight) {
+	protected void loadImage(String img, int subImgWidth, int subImgHeight, double scale) {
 		this.subImgWidth = subImgWidth;
 		this.subImgHeight = subImgHeight;
 		try {
-			spriteSheet = ImageIO.read(new File(IMAGE_DIRECTORY + img));
+			BufferedImage before = ImageIO.read(new File(IMAGE_DIRECTORY + img));
+			int w = before.getWidth();
+			int h = before.getHeight();
+			spriteSheet = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+			AffineTransform at = new AffineTransform();
+			at.scale(scale, scale);
+			AffineTransformOp scaleOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
+			spriteSheet = scaleOp.filter(before, spriteSheet);
+
 			updateSubImage();
 		} catch (IOException e) {
 			System.out.println("Unable to load resource: " + img);

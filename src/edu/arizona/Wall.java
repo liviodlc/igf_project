@@ -21,7 +21,7 @@ public class Wall extends GameObject {
 	public Wall(int x, int y) {
 		newBounds = new Rectangle(x, y, HIT_WIDTH, HIT_HEIGHT);
 		oldBounds = (Rectangle) newBounds.clone();
-		loadImage("wall.png", SUB_IMG_WIDTH, SUB_IMG_HEIGHT);
+		loadImage("wall.png", SUB_IMG_WIDTH, SUB_IMG_HEIGHT, 1);
 		isActive = false;
 		isSolid = true;
 	}
