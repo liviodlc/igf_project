@@ -4,18 +4,18 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
 /**
- * This class keeps track of all the objects in a room, and handles things like
- * updating, and knows what the current visiblity is.
+ * This class keeps track of all the objects in a room, and handles things like updating, and knows
+ * what the current visiblity is.
  * 
- * This represents both the model and the view of a Room. Livio thinks this
- * makes more sense conceptually, even though it goes against the Model-View-
- * Controller design pattern.
+ * This represents both the model and the view of a Room. Livio thinks this makes more sense
+ * conceptually, even though it goes against the Model-View- Controller design pattern.
  * 
  * @author Teresa, Livio
  * 
@@ -24,8 +24,8 @@ public class Room extends JPanel {
 
 	// ----------------- DEFINITIONS -------------------------------
 
-	private static final Color[] BG_COLORS = { Color.gray, Color.yellow,
-			Color.red, Color.white, Color.blue, Color.black, Color.gray };
+	private static final Color[] BG_COLORS = { Color.gray, Color.yellow, Color.red, Color.white,
+			Color.blue, Color.black, Color.gray };
 
 	// -------------- USELESS STATIC STUFF -------------------------
 
@@ -39,44 +39,68 @@ public class Room extends JPanel {
 	 */
 	private ArrayList<GameObject> myContents;
 
+	/**
+	 * The current value of the spectrum slider
+	 */
+	public int visRange;
+
 	// -------------- FUNCTIONS / METHODS ---------------------------
 
 	public Room() {
 		myContents = new ArrayList<GameObject>();
 	}
 
+	public void addGameObject(GameObject obj) {
+		myContents.add(obj);
+	}
+
 	/**
-	 * This override of the paint method is what is currently causing customized
-	 * drawing To get this code to run just call the RoomPanel's repaint method
-	 * on the instance.
+	 * Updates the state of all objects in room, then does collision detection.
+	 */
+	public void updateState() {
+		for (GameObject o : myContents) {
+			if (o.isActive){
+				o.updateState();
+				for (GameObject p : myContents) {
+					if(p != o){
+						o.collisionTest(p);
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * This override of the paint method is what is currently causing customized drawing. To get
+	 * this code to run just call the Room's repaint method on the instance.
 	 * 
 	 * @author Teresa
 	 */
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g); // IMPORTANT!!! DO NOT GET RID OF THIS LINE!!
+		paintSelf(g);
+		paintContents(g);
+	}
 
+	private void paintSelf(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
-		int vis = 15; // TODO: this is default value, make it change
-		int range = vis % 5; // THIS IS HARD CODED!!!
+		int range = visRange % Main.SPECTRUM_MAJOR_TICKS;
 
 		// if we're exactly on one spectra
 		if (range == 0) {
-			Rectangle2D background = new Rectangle2D.Double(0, 0, this
-					.getWidth(), this.getHeight());
+			Rectangle2D background = new Rectangle2D.Double(0, 0, this.getWidth(), this.getHeight());
 			g2.draw(background);
-			g2.setPaint(BG_COLORS[vis / 5]);// ALSO HARD CODED!!!
+			g2.setPaint(BG_COLORS[visRange / Main.SPECTRUM_MAJOR_TICKS]);
 			g2.fill(background);
-		}
-		// compute a middle value for the bg
-		else {
+		} else { // compute a middle value for the bg
 			// get the color to the left
-			int left = vis - range;
-			Color cleft = BG_COLORS[left / 5];
+			int left = visRange - range;
+			Color cleft = BG_COLORS[left / Main.SPECTRUM_MAJOR_TICKS];
 
 			// get the color to the right
-			int right = vis + (5 - range);
-			Color cright = BG_COLORS[right / 5];
+			int right = visRange + (Main.SPECTRUM_MAJOR_TICKS - range);
+			Color cright = BG_COLORS[right / Main.SPECTRUM_MAJOR_TICKS];
 
 			int red;
 			int green;
@@ -108,23 +132,24 @@ public class Room extends JPanel {
 				blue = (int) ((cleft.getBlue() * .5) + (cright.getBlue() * .5));
 			}
 			Color mix = new Color(red, green, blue);
-			Rectangle2D background = new Rectangle2D.Double(0, 0, this
-					.getWidth(), this.getHeight());
+			Rectangle2D background = new Rectangle2D.Double(0, 0, this.getWidth(), this.getHeight());
 			g2.draw(background);
 			g2.setPaint(mix);
 			g2.fill(background);
 		}
-		// iterate over objects in the room, compute their visibilty and draw
-		// them
+	}
 
+	/**
+	 * Iterate over objects in the room, compute their visibilty and draw them.
+	 * 
+	 * @author Teresa
+	 */
+	private void paintContents(Graphics g) {
 		for (GameObject o : myContents) {
-			// get o's current image
-//			Image oImage = o.getImage();
-//			int xCoord = o.getXCoord();
-//			int yCoord = o.getYCoord();
-
-			// draw the image:
-//			g.drawImage(oImage, xCoord, yCoord, null);
+			o.setVisRange(visRange); // make sure visRange is up to date
+			Image oImage = o.getImage(); // get o's current image
+			Rectangle oBounds = o.newBounds; // get x and y location
+			g.drawImage(oImage, oBounds.x, oBounds.y, null); // draw the image:
 		}
 	}
 }
