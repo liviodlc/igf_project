@@ -156,7 +156,7 @@ public class Room extends JPanel {
 	protected BufferedImage blend(BufferedImage b1, BufferedImage b2, double weight) {
 		// create a new image and get its graphics
 		BufferedImage blended = new BufferedImage(b1.getWidth(), b1.getHeight(),
-				BufferedImage.TYPE_INT_RGB);
+				BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g2 = blended.createGraphics();
 
 		// draw the new image w/appropriate blending

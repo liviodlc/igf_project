@@ -42,8 +42,6 @@ public class Player extends GameObject {
 	public boolean keyLeft;
 
 	// visual states:
-	private boolean isFacingLeft;
-	private int currentFrame;
 	private int delayCount;
 
 	// -------------- FUNCTIONS / METHODS ------------------

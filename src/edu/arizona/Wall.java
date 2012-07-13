@@ -14,8 +14,8 @@ public class Wall extends GameObject {
 
 	// ---------------- INSTANCE VARS -------------------------------
 
-	/* none */
-
+	/*none!*/
+	
 	// -------------- FUNCTIONS / METHODS ------------------
 
 	public Wall(int x, int y) {
@@ -24,6 +24,8 @@ public class Wall extends GameObject {
 		loadImage("wall.png", SUB_IMG_WIDTH, SUB_IMG_HEIGHT, 1);
 		isActive = false;
 		isSolid = true;
+		currentFrame= 1;
+		isFacingLeft= false;
 	}
 
 }

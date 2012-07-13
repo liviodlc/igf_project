@@ -41,6 +41,8 @@ abstract class GameObject {
 	protected int subImgHeight;
 	public int imgOffsetX;
 	public int imgOffsetY;
+	public int currentFrame;
+	public boolean isFacingLeft;
 
 	// ----------------- CONSTRUCTORS ------------------------
 
@@ -104,6 +106,7 @@ abstract class GameObject {
 	 * Will update the current image with the appropriate one stored in the spritesheet for the
 	 * current spectrum.
 	 */
+	
 	protected void updateSubImage() {
 		currImage = spriteSheet.getSubimage(subImgWidth * (visRange / Main.SPECTRUM_MAJOR_TICKS),
 			0, subImgWidth, subImgHeight);
@@ -136,22 +139,40 @@ abstract class GameObject {
 		} else {
 			// NOTE - the blend code is a protected method in GameObject so that all objs can blend
 			// images if/when they need to
-
+			
 			// get the image before you
 			int befX = visRange / Main.SPECTRUM_MAJOR_TICKS;
-			BufferedImage before = spriteSheet.getSubimage(befX * subImgWidth, 0, subImgWidth,
+			BufferedImage before = spriteSheet.getSubimage(befX * subImgWidth, (currentFrame - 1) * subImgHeight , subImgWidth,
 					subImgHeight);
 
 			// get the image behind you
 			int behX = (visRange + Main.SPECTRUM_MAJOR_TICKS) / Main.SPECTRUM_MAJOR_TICKS;
-			BufferedImage behind = spriteSheet.getSubimage(behX * subImgWidth, 0, subImgWidth,
+			BufferedImage behind = spriteSheet.getSubimage(behX * subImgWidth, (currentFrame - 1) * subImgHeight , subImgWidth,
 					subImgHeight);
-
+			
 			// blend the two images
-			currImage = blend(before, behind, (5 - (visRange % Main.SPECTRUM_MAJOR_TICKS)) / 5.0);
+			if (!isFacingLeft){
+				currImage = blend(before, behind, (5 - (visRange % Main.SPECTRUM_MAJOR_TICKS)) / 5.0);
+			}else{
+				currImage = blend(invert(before), invert(behind), (5 - (visRange % Main.SPECTRUM_MAJOR_TICKS)) / 5.0);
+			}
+			
 		}
 	}
 
+	public BufferedImage invert(BufferedImage i){
+		AffineTransform tx = AffineTransform.getScaleInstance(-1, 1);
+		tx.translate(-i.getWidth(null), 0);
+		AffineTransformOp op = new AffineTransformOp(tx,
+				AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+		if (i instanceof BufferedImage)
+			i = op.filter((BufferedImage) i, null);
+		else
+			System.err
+					.println("Error: [Player.java > updateSubImage()] currImage is not BufferedImage");
+		return i;
+	}
+	
 	/**
 	 * WARNING!! This method is intended to blend two images that are assumed (and as of this
 	 * writing it's basically guaranteed...) to be the same height and width. Don't try this if you
@@ -162,7 +183,7 @@ abstract class GameObject {
 	protected BufferedImage blend(BufferedImage b1, BufferedImage b2, double weight) {
 		// create a new image and get its graphics
 		BufferedImage blended = new BufferedImage(b1.getWidth(), b1.getHeight(),
-				BufferedImage.TYPE_INT_RGB);
+				BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g2 = blended.createGraphics();
 
 		// draw the new image w/appropriate blending
