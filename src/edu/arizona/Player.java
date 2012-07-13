@@ -64,7 +64,7 @@ public class Player extends GameObject {
 		int subx = subImgWidth * (visRange / Main.SPECTRUM_MAJOR_TICKS);
 		int suby = subImgHeight * (currentFrame - 1);
 		currImage = spriteSheet.getSubimage(subx, suby, subImgWidth, subImgHeight);
-
+		
 		if (isFacingLeft) {
 			AffineTransform tx = AffineTransform.getScaleInstance(-1, 1);
 			tx.translate(-currImage.getWidth(null), 0);

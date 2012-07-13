@@ -4,6 +4,7 @@ import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -80,14 +81,18 @@ abstract class GameObject {
 		this.subImgWidth = subImgWidth;
 		this.subImgHeight = subImgHeight;
 		try {
-			BufferedImage before = ImageIO.read(new File(IMAGE_DIRECTORY + img));
-			int w = before.getWidth();
-			int h = before.getHeight();
-			spriteSheet = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-			AffineTransform at = new AffineTransform();
-			at.scale(scale, scale);
-			AffineTransformOp scaleOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
-			spriteSheet = scaleOp.filter(before, spriteSheet);
+			spriteSheet = ImageIO.read(new File(IMAGE_DIRECTORY + img));
+			
+			int newWidth = new Double(spriteSheet.getWidth() * scale).intValue();
+			int newHeight = new Double(spriteSheet.getHeight() * scale).intValue();
+			
+			BufferedImage resized = new BufferedImage(newWidth, newHeight, spriteSheet.getType());
+		    Graphics2D g = resized.createGraphics();
+		    g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+		    g.drawImage(spriteSheet, 0, 0, newWidth, newHeight, 0, 0, spriteSheet.getWidth(), spriteSheet.getHeight(), null);
+		    g.dispose();
+		    
+		    spriteSheet = resized;
 
 			updateSubImage();
 		} catch (IOException e) {
@@ -101,7 +106,7 @@ abstract class GameObject {
 	 */
 	protected void updateSubImage() {
 		currImage = spriteSheet.getSubimage(subImgWidth * (visRange / Main.SPECTRUM_MAJOR_TICKS),
-				0, subImgWidth, subImgHeight);
+			0, subImgWidth, subImgHeight);
 	}
 
 	/**
