@@ -1,0 +1,17 @@
+Slick
+
+Takes longer to build and set up(and be sure that all the external jars are part of the Referenced Libraries and the natives in the buildpath is pointing to the natives folder)
+
+Setting up the indiviual objects to render and such may require a lot of backstructure and object hierarchies, but once the back work is done things should be able to be added with relative ease.
+
+Does support states (althougth this example is not state based, as you can rack up a lot of classes very quickly if you go that route, making things a lot more challenging to keep track of)
+
+I don't see a clear way to do parallax backgrounds yet, though I have some ideas, the most prominent one thus far is to make each layer its own element, though that would present the challenge of figuring out what part was supposed to be rendering.
+
+I have done sprites with this engine before and have that code available(somewhere), so I know the multiple sprites are doable, and that we won't have to worry about size.
+
+We may need to worry about collisions, but I've done that before too, and that's a simple matter of everything keeping track of where they are and sending a message when something else's coordinates overlap with its own.
+
+Cameras are indeed available, though I haven't played around with them much.
+
+One major downside I remember not liking about slick was how bloated the code seemed to get when I worked on projects.  This could have been a by product of bad planning, but it seemed as though I was forever making new private classes and subscribing them to events, and then making a new event, then discovering I needed more private classes to cover all the events...

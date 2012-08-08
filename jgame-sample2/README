@@ -1,0 +1,16 @@
+JGame
+
+The setup was a breeze.  Dropped 1 jar in, hooked it up to the buildpath and was good to go
+
+This engine will support separate states.  This is important because states are what determine things like pause menus, splash screen, transitions, etc.
+The support for states is just based on variables in the code. It looks like the StdGame can be extended and variables can be changed - I'll be applying a conclusive test of this later.
+
+So far, their collision seems tile based, so we can
+1) make all the sprites/interactable elements be based on the tile sizes
+2) write our own collisions <- this could be a pain and bug filled route
+
+I'm not really sure about the background (especially the parallax scrolling) at this point.  The tutorials I've found so far have just slapped a background picture on and were done with it
+
+I'm also not sure about the camera. Currently it looks doable(and I have a tutorial for something that I believe is camera), so I'm cautiously optimistic.
+
+So far, I'm liking the straight-forwardness of this engine in comparison to Slick's many class approach, and there seems to be a good bit of useful documentation on the website itself, plus an API
