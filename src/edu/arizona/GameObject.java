@@ -87,8 +87,9 @@ abstract class GameObject {
 			
 			int newWidth = new Double(spriteSheet.getWidth() * scale).intValue();
 			int newHeight = new Double(spriteSheet.getHeight() * scale).intValue();
-			
-			BufferedImage resized = new BufferedImage(newWidth, newHeight, spriteSheet.getType());
+			System.out.println(spriteSheet.getType());
+			System.out.println(BufferedImage.TYPE_INT_ARGB);
+			BufferedImage resized = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
 		    Graphics2D g = resized.createGraphics();
 		    g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 		    g.drawImage(spriteSheet, 0, 0, newWidth, newHeight, 0, 0, spriteSheet.getWidth(), spriteSheet.getHeight(), null);
